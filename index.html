@@ -11,28 +11,33 @@
         var $body = $('body');
         $body.html('');
 
+        /* Creates section for tweet feed */
+
+        var $tweetContainer = $('<section class="feed"></section>');
+        $tweetContainer.appendTo($body);
+
         var index = 0;
 
-        while(index < streams.home.length){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text(tweet.created_at + ' - ' + '@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index++;
-        }
+        /* Populates initial tweets. */
+        var tweetUpdate = function() {
+          while(index < streams.home.length){
+            var tweet = streams.home[index];
+            var $tweet = $('<div></div>');
+            $tweet.text(tweet.created_at + ' - ' + '@' + tweet.user + ': ' + tweet.message);
+            $tweet.prependTo($tweetContainer);
+            index++;
+          }
+        };
+
+        tweetUpdate();
+
+        /* Allows button to update with next most current tweets*/
         index = streams.home.length;
 
         var button = $('<button class="btn">Do Something</button>');
         button.appendTo($body);
-        $(".btn").on('click', function(){
-          if(index < streams.home.length){
-            var tweet = streams.home[index];
-            var $tweet = $('<div></div>');
-            $tweet.text(tweet.created_at + ' - ' + '@' + tweet.user + ': ' + tweet.message);
-            $tweet.appendTo($body.find("div").last());
-            index++;
-          }
-        });
+
+        $(".btn").on('click', tweetUpdate);
 
       });
 
