@@ -3,6 +3,7 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link rel="stylesheet" src="assets/stylesheets/main.css">
   </head>
   <body>
     <script>
@@ -23,7 +24,7 @@
           while(index < streams.home.length){
             var tweet = streams.home[index];
             var $tweet = $('<div></div>');
-            $tweet.text(tweet.created_at + ' - ' + '@' + tweet.user + ': ' + tweet.message);
+            $tweet.html('@<a href="#" class="tweetUser">' + tweet.user + '</a>: ' + tweet.message + ' - ' + tweet.created_at);
             $tweet.prependTo($tweetContainer);
             index++;
           }
@@ -34,7 +35,7 @@
         /* Allows button to update with next most current tweets*/
         index = streams.home.length;
 
-        var button = $('<button class="btn">Do Something</button>');
+        var button = $('<button class="btn">New Tweets</button>');
         button.appendTo($body);
 
         $(".btn").on('click', tweetUpdate);
