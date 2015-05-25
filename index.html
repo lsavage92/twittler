@@ -62,7 +62,6 @@
         feedUpdate();
 
         /* Allows button to update with next most current tweets*/
-        index = streams.home.length;
 
         var $newTweets = $('<button class="btn">New Tweets</button>');
         $newTweets.appendTo($body);
@@ -73,15 +72,14 @@
           var $backButton = $('<button class="btn backButton">Back to Feed</button>');
           $backButton.appendTo($usersFeed);
           $backButton.on('click', function() {
+            index = 0;
             feedUpdate();
             $backButton.remove();
             $usersFeed.html(' ');
+            $newTweets.appendTo($body);
+            $('.btn').on('click', feedUpdate);
           });
         }
-
-        
-        //$('.tweetUser').on('click', showUserFeed);
-        
 
       });
 
