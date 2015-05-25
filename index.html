@@ -19,12 +19,11 @@
 
         /* Creates section for users individual feeds */
         var $usersFeed = $('<section class="usersFeed"></section>');
-        $usersFeed.addClass('invisible');
         $usersFeed.appendTo($body);
 
         var index = 0;
 
-        /* Add tweet function */
+        /* Add tweet utility function */
         var addTweet = function(element, tweet){
           var tweet = streams.home[index];
           var $tweet = $('<div></div>');
@@ -47,30 +46,28 @@
         /* Allows button to update with next most current tweets*/
         index = streams.home.length;
 
-        var $button = $('<button class="btn">New Tweets</button>');
-        $button.appendTo($body);
+        var $newTweets = $('<button class="btn">New Tweets</button>');
+        $newTweets.appendTo($body);
 
         $('.btn').on('click', feedUpdate);
 
-        /* Shows user's timline */
-        var showFeed = function() {
+        /* Shows user's timline when username is clicked */
+        var showUserFeed = function() {
           index = 0;
           $usersFeed.html('');
           var tweet;
           while(index < streams.home.length){
             tweet = streams.home[index];
-            if(tweet.user = event.target.id)
+            if(tweet.user === event.target.id){
               addTweet($usersFeed, tweet);
-              index++;
+            }
+            index++;
           }
-          $tweetContainer.addClass('invisible');
-          $tweetContainer.find('div').addClass('invisible');
-          $button.remove();
-          $usersFeed.removeClass('invisible');
+          $newTweets.remove();
           $tweetContainer.html('');
         };
 
-        $('.tweetUser').on('click', showFeed);
+        $('.tweetUser').on('click', showUserFeed);
 
       });
 
