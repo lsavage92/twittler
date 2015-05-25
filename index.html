@@ -29,6 +29,24 @@
           var $tweet = $('<div></div>');
           $tweet.html('@<a href="#" class="tweetUser" ' + 'id="' + tweet.user + '">' + tweet.user + '</a>: ' + tweet.message + ' - ' + tweet.created_at);
           $tweet.prependTo(element);
+          $('.tweetUser').on('click', showUserFeed);
+        };
+
+        /* Shows user's timline when username is clicked */
+        var showUserFeed = function() {
+          index = 0;
+          $usersFeed.html('');
+          var tweet;
+          while(index < streams.home.length){
+            tweet = streams.home[index];
+            if(tweet.user === event.target.id){
+              addTweet($usersFeed, tweet);
+            }
+            index++;
+          }
+          $newTweets.remove();
+          $tweetContainer.html('');
+          addBackButton();
         };
 
         /* Populates initial tweets. */
@@ -61,24 +79,9 @@
           });
         }
 
-        /* Shows user's timline when username is clicked */
-        var showUserFeed = function() {
-          index = 0;
-          $usersFeed.html('');
-          var tweet;
-          while(index < streams.home.length){
-            tweet = streams.home[index];
-            if(tweet.user === event.target.id){
-              addTweet($usersFeed, tweet);
-            }
-            index++;
-          }
-          $newTweets.remove();
-          $tweetContainer.html('');
-          addBackButton();
-        };
-
-        $('.tweetUser').on('click', showUserFeed);
+        
+        //$('.tweetUser').on('click', showUserFeed);
+        
 
       });
 
