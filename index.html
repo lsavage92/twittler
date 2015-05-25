@@ -24,18 +24,25 @@
 
         var index = 0;
 
+        /* Add tweet function */
+        var addTweet = function(element, tweet){
+          var tweet = streams.home[index];
+          var $tweet = $('<div></div>');
+          $tweet.html('@<a href="#" class="tweetUser" ' + 'id="' + tweet.user + '">' + tweet.user + '</a>: ' + tweet.message + ' - ' + tweet.created_at);
+          $tweet.prependTo(element);
+        };
+
         /* Populates initial tweets. */
-        var tweetUpdate = function() {
+        var feedUpdate = function() {
+          var tweet;
           while(index < streams.home.length){
-            var tweet = streams.home[index];
-            var $tweet = $('<div></div>');
-            $tweet.html('@<a href="#" class="tweetUser" ' + 'id="' + tweet.user + '">' + tweet.user + '</a>: ' + tweet.message + ' - ' + tweet.created_at);
-            $tweet.prependTo($tweetContainer);
+            tweet = streams.home[index];
+            addTweet($tweetContainer, tweet);
             index++;
           }
         };
 
-        tweetUpdate();
+        feedUpdate();
 
         /* Allows button to update with next most current tweets*/
         index = streams.home.length;
@@ -43,18 +50,17 @@
         var $button = $('<button class="btn">New Tweets</button>');
         $button.appendTo($body);
 
-        $('.btn').on('click', tweetUpdate);
+        $('.btn').on('click', feedUpdate);
 
         /* Shows user's timline */
         var showFeed = function() {
           index = 0;
           $usersFeed.html('');
+          var tweet;
           while(index < streams.home.length){
-            var tweet = streams.home[index];
+            tweet = streams.home[index];
             if(tweet.user = event.target.id)
-              var $tweet = $('<div></div>');
-              $tweet.html('@<a href="#" class="tweetUser" ' + 'id="' + tweet.user + '">' + tweet.user + '</a>: ' + tweet.message + ' - ' + tweet.created_at);
-              $tweet.prependTo($usersFeed);
+              addTweet($usersFeed, tweet);
               index++;
           }
           $tweetContainer.addClass('invisible');
