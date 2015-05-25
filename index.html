@@ -48,8 +48,18 @@
 
         var $newTweets = $('<button class="btn">New Tweets</button>');
         $newTweets.appendTo($body);
-
         $('.btn').on('click', feedUpdate);
+
+        /* Adds button to userFeed to go back to mainFeed */
+        var addBackButton = function(){
+          var $backButton = $('<button class="btn backButton">Back to Feed</button>');
+          $backButton.appendTo($usersFeed);
+          $backButton.on('click', function() {
+            feedUpdate();
+            $backButton.remove();
+            $usersFeed.html(' ');
+          });
+        }
 
         /* Shows user's timline when username is clicked */
         var showUserFeed = function() {
@@ -65,6 +75,7 @@
           }
           $newTweets.remove();
           $tweetContainer.html('');
+          addBackButton();
         };
 
         $('.tweetUser').on('click', showUserFeed);
