@@ -14,8 +14,13 @@
 
         /* Creates section for tweet feed */
 
-        var $tweetContainer = $('<section class="feed"></section>');
+        var $tweetContainer = $('<section class="mainFeed"></section>');
         $tweetContainer.appendTo($body);
+
+        /* Creates section for users individual feeds */
+        var $usersFeed = $('<section class="usersFeed"></section>');
+        $usersFeed.addClass('invisible');
+        $usersFeed.appendTo($body);
 
         var index = 0;
 
@@ -24,7 +29,7 @@
           while(index < streams.home.length){
             var tweet = streams.home[index];
             var $tweet = $('<div></div>');
-            $tweet.html('@<a href="#" class="tweetUser">' + tweet.user + '</a>: ' + tweet.message + ' - ' + tweet.created_at);
+            $tweet.html('@<a href="#" class="tweetUser" ' + 'id="' + tweet.user + '">' + tweet.user + '</a>: ' + tweet.message + ' - ' + tweet.created_at);
             $tweet.prependTo($tweetContainer);
             index++;
           }
@@ -35,10 +40,31 @@
         /* Allows button to update with next most current tweets*/
         index = streams.home.length;
 
-        var button = $('<button class="btn">New Tweets</button>');
-        button.appendTo($body);
+        var $button = $('<button class="btn">New Tweets</button>');
+        $button.appendTo($body);
 
-        $(".btn").on('click', tweetUpdate);
+        $('.btn').on('click', tweetUpdate);
+
+        /* Shows user's timline */
+        var showFeed = function() {
+          index = 0;
+          $usersFeed.html('');
+          while(index < streams.home.length){
+            var tweet = streams.home[index];
+            if(tweet.user = event.target.id)
+              var $tweet = $('<div></div>');
+              $tweet.html('@<a href="#" class="tweetUser" ' + 'id="' + tweet.user + '">' + tweet.user + '</a>: ' + tweet.message + ' - ' + tweet.created_at);
+              $tweet.prependTo($usersFeed);
+              index++;
+          }
+          $tweetContainer.addClass('invisible');
+          $tweetContainer.find('div').addClass('invisible');
+          $button.remove();
+          $usersFeed.removeClass('invisible');
+          $tweetContainer.html('');
+        };
+
+        $('.tweetUser').on('click', showFeed);
 
       });
 
