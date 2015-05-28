@@ -12,6 +12,13 @@
         var $body = $('body');
         $body.html('');
 
+        /*Creates header section */
+        var $header = $('<header class="container header"></header>');
+        $header.appendTo($body); 
+
+        var $logo = $('<header class="container header"><h1 class="logo">Twittler</h1></header>');
+        $logo.appendTo($header);
+
         /* Creates section for tweet feed */
 
         var $tweetContainer = $('<section class="mainFeed"></section>');
@@ -26,7 +33,7 @@
         /* Add tweet utility function */
         var addTweet = function(element, tweet){
           var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
+          var $tweet = $('<div class="tweet"></div>');
           $tweet.html('@<a href="#" class="tweetUser" ' + 'id="' + tweet.user + '">' + tweet.user + '</a>: ' + tweet.message + ' - ' + tweet.created_at);
           $tweet.prependTo(element);
           $('.tweetUser').on('click', showUserFeed);
@@ -61,7 +68,7 @@
 
         feedUpdate();
 
-        /* Allows button to update with next most current tweets*/
+        /* Allows button to update with next most current tweets -- Maybe find a way to wrap in function like back button to reuse code*/
 
         var $newTweets = $('<button class="btn">New Tweets</button>');
         $newTweets.appendTo($body);
