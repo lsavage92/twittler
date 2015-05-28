@@ -3,7 +3,7 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
-    <link rel="stylesheet" src="assets/stylesheets/main.css">
+    <link rel="stylesheet" href="assets/stylesheets/main.css">
   </head>
   <body>
     <script>
@@ -12,20 +12,24 @@
         var $body = $('body');
         $body.html('');
 
+
         /*Creates header section */
         var $header = $('<header class="container header"></header>');
         $header.appendTo($body); 
 
-        var $logo = $('<header class="container header"><h1 class="logo">Twittler</h1></header>');
+        var $logo = $('<h1 class="logo">Twittler</h1>');
         $logo.appendTo($header);
 
         /* Creates section for tweet feed */
 
-        var $tweetContainer = $('<section class="mainFeed"></section>');
+        var $tweetContainer = $('<section class="container feed"></section>');
         $tweetContainer.appendTo($body);
 
+        var $newTweets = $('<button class="btn update">New Tweets</button>');
+        $newTweets.prependTo($tweetContainer);
+
         /* Creates section for users individual feeds */
-        var $usersFeed = $('<section class="usersFeed"></section>');
+        var $usersFeed = $('<section class="container feed invisible"></section>');
         $usersFeed.appendTo($body);
 
         var index = 0;
@@ -34,8 +38,8 @@
         var addTweet = function(element, tweet){
           var tweet = streams.home[index];
           var $tweet = $('<div class="tweet"></div>');
-          $tweet.html('@<a href="#" class="tweetUser" ' + 'id="' + tweet.user + '">' + tweet.user + '</a>: ' + tweet.message + ' - ' + tweet.created_at);
-          $tweet.prependTo(element);
+          $tweet.html('<a href="#" class="tweetUser" ' + 'id="' + '@' + tweet.user + '">' + tweet.user + '</a>: ' + tweet.message + ' - ' + tweet.created_at);
+          $tweet.insertAfter(element);
           $('.tweetUser').on('click', showUserFeed);
         };
 
@@ -61,17 +65,14 @@
           var tweet;
           while(index < streams.home.length){
             tweet = streams.home[index];
-            addTweet($tweetContainer, tweet);
+            addTweet($newTweets, tweet);
             index++;
           }
         };
 
         feedUpdate();
 
-        /* Allows button to update with next most current tweets -- Maybe find a way to wrap in function like back button to reuse code*/
-
-        var $newTweets = $('<button class="btn">New Tweets</button>');
-        $newTweets.appendTo($body);
+        /* Allows button to update with next most current tweets */
         $('.btn').on('click', feedUpdate);
 
         /* Adds button to userFeed to go back to mainFeed */
@@ -87,7 +88,6 @@
             $('.btn').on('click', feedUpdate);
           });
         }
-
       });
 
     </script>
