@@ -25,18 +25,21 @@
         var $tweetContainer = $('<section class="container feed"></section>');
         $tweetContainer.appendTo($body);
 
-        var $buttons = $('<section class="buttons"></section>');
-        $buttons.appendTo($tweetContainer);
+        var $buttons1 = $('<section class="buttons"></section>');
+        $buttons1.appendTo($tweetContainer);
 
         var $newTweets = $('<button class="btn update">New Tweets</button>');
-        $newTweets.appendTo($buttons);
+        $newTweets.appendTo($buttons1);
 
         /* Creates section for users individual feeds */
         var $usersFeed = $('<section class="container feed invisible"></section>');
         $usersFeed.appendTo($body);
 
+        var $buttons2 = $('<section class="buttons"></section>');
+        $buttons2.appendTo($usersFeed);
+
         var $backButton = $('<button class="btn backButton">Back to Feed</button>');
-        $backButton.appendTo($usersFeed);
+        $backButton.appendTo($buttons2);
 
         var index = 0;
 
@@ -44,7 +47,7 @@
         var addTweet = function(element, tweet){
           var tweet = streams.home[index];
           var $tweet = $('<div class="tweet"></div>');
-          $tweet.html('<a href="#" class="tweetUser" ' + 'id="' + '@' + tweet.user + '">' + tweet.user + '</a>: ' + tweet.message + ' - ' + tweet.created_at);
+          $tweet.html('<a href="#" class="tweetUser" ' + 'id="' + tweet.user + '">@' + tweet.user + '</a>: ' + tweet.message + ' - ' + tweet.created_at);
           $tweet.insertAfter(element);
           $('.tweetUser').on('click', showUserFeed);
         };
@@ -53,17 +56,18 @@
         var showUserFeed = function() {
           index = 0;
           var tweet;
-          while(index < streams.home.length){
-            tweet = streams.home[index];
-            if(tweet.user === event.target.id){
-              addTweet($buttons, tweet);
-            }
-            index++;
-          }
           $newTweets.addClass('invisible');
           $tweetContainer.addClass('invisible');
           $usersFeed.removeClass('invisible');
           $backButton.removeClass('invisible');
+          while(index < streams.home.length){
+            tweet = streams.home[index];
+            if(tweet.user === event.target.id){
+              addTweet($buttons2, tweet);
+            }
+            index++;
+          }
+          
         };
 
         /* Populates initial tweets. */
@@ -71,7 +75,7 @@
           var tweet;
           while(index < streams.home.length){
             tweet = streams.home[index];
-            addTweet($buttons, tweet);
+            addTweet($buttons1, tweet);
             index++;
           }
         };
